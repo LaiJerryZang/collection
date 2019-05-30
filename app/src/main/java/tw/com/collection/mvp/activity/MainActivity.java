@@ -23,8 +23,4 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     }
 
-    public void IOnClick(View view){}
-
-
-
 }
