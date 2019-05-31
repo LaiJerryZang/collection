@@ -7,9 +7,6 @@
         <variable
             name="item"
             type="tw.com.collection.mvp.item.TextItem" />
-        <variable
-            name="presenter"
-            type="tw.com.collection.mvp.presenter.MainPresenter" />
     </data>
 
     <LinearLayout
@@ -18,10 +15,11 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{item.text}"
-            android:onClick="@{()->presenter.reLoadData()}"/>
+            app:onClickListener="@{item.onClickListener}"/>
 
     </LinearLayout>
 </layout>

@@ -12,7 +12,7 @@ import tw.com.collection.basic.utils.CommonUtil;
 import tw.com.collection.databinding.ActivityMainBinding;
 import tw.com.collection.mvp.presenter.MainPresenter;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding> implements IMainViewContract {
+public class MainActivity extends BaseActivity<ActivityMainBinding> implements MainViewContract {
 
     private MainPresenter mainPresenter = new MainPresenter(this);
 
@@ -34,12 +34,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements I
     @Override
     protected void initData() {
         SwipeRefreshLayout refreshLayout = dataBinding.swipeRefreshLayout;
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mainPresenter.reLoadData();
-            }
-        });
+        refreshLayout.setOnRefreshListener(() -> mainPresenter.reLoadData());
     }
 
     @Override
@@ -62,7 +57,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements I
         dismissDialog();
     }
 
-    public void ClickEvent(View view){
-        CommonUtil.showToast(this,"aaa");
+    @Override
+    public void showToast(String msg) {
+        CommonUtil.showToast(this,msg);
     }
+
+
 }

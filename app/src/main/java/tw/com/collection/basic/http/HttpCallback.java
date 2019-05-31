@@ -3,6 +3,8 @@ package tw.com.collection.basic.http;
 import android.os.Handler;
 import android.os.Looper;
 
+import androidx.annotation.NonNull;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -20,28 +22,23 @@ public class HttpCallback implements Callback {
     }
 
     @Override
-    public void onFailure(Call call, final IOException e) {
+    public void onFailure(@NonNull Call call, final IOException e) {
         //在非UI線程，要轉
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                mListener.end();
-                mListener.onFailure(e.getClass().getSimpleName());
-            }
+        mHandler.post(() -> {
+            mListener.end();
+            mListener.onFailure(e.getClass().getSimpleName());
         });
     }
 
     @Override
-    public void onResponse(Call call, Response response) throws IOException {
+    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
         //isSuccessful()判斷回傳code是否為200
         if(response.isSuccessful()){
+            assert response.body() != null;
             final String result = response.body().string();
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mListener.end();
-                    mListener.onSuccess(result);
-                }
+            mHandler.post(() -> {
+                mListener.end();
+                mListener.onSuccess(result);
             });
         }
     }
