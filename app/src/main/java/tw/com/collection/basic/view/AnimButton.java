@@ -37,7 +37,6 @@ public class AnimButton extends AppCompatButton {
     }
 
     public interface OnClickListener {
-
         void onClick(View v);
     }
 

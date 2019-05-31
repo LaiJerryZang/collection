@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MVP</string>
+    <string name="load">加載中…</string>
 </resources>

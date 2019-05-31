@@ -9,6 +9,9 @@
         <variable
             name="main"
             type="tw.com.collection.mvp.activity.MainActivity" />
+        <variable
+            name="listener"
+            type="tw.com.collection.basic.view.AnimButton.OnClickListener" />
     </data>
        <RelativeLayout
            android:layout_width="match_parent"
@@ -16,14 +19,14 @@
 
            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                android:layout_width="match_parent"
-               android:layout_height="match_parent">
+               android:layout_height="match_parent"
+               android:id="@+id/swipe_refresh_layout">
                <androidx.recyclerview.widget.RecyclerView
                    android:id="@+id/rv"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent">
                </androidx.recyclerview.widget.RecyclerView>
            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
        </RelativeLayout>
 
 
