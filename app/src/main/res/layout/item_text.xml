@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.context}"
+            android:text="@{item.content}"
             app:onClickListener="@{item.onClickListener}"/>
     </LinearLayout>
 </layout>

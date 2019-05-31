@@ -1,11 +1,7 @@
 package tw.com.collection.mvp.presenter;
 
-import android.os.Handler;
 import android.os.Message;
-import android.view.View;
-
 import com.badoo.mobile.util.WeakHandler;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,11 +25,8 @@ public class MainPresenter {
         return adapter;
     }
 
-    public void reLoadData(){
-        addItem();
-    }
-
-    private void addItem(){
+    //加載資料
+    public void LoadData(boolean isFirst){
         mainModel.getOpenData(new IDataCallListener() {
             @Override
             public void onSuccess(String response) {
@@ -45,8 +38,6 @@ public class MainPresenter {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             String title = jsonObject.optString("title","not title");
                             String url = jsonObject.optString("imageUrl", "not img");
-//                                adapter.addItem(new TextItem(title,adapter));
-//                                adapter.addItem(new ImageItem(url,adapter));
                             weakHandler.sendMessage(setMessage(0,title));
                             weakHandler.sendMessage(setMessage(1,url));
                         }
@@ -64,12 +55,12 @@ public class MainPresenter {
 
             @Override
             public void start() {
-                mainViewContract.startProgress();
+                if(isFirst)mainViewContract.startProgress();
             }
 
             @Override
             public void end() {
-                mainViewContract.endProgress();
+                if(isFirst)mainViewContract.endProgress();
             }
         });
     }
@@ -95,5 +86,9 @@ public class MainPresenter {
         message.what = what;
         message.obj = obj;
         return message;
+    }
+
+    public void Destory(){
+        mainViewContract = null;
     }
 }

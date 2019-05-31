@@ -9,6 +9,9 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+/**
+ * 憑證
+ */
 public class HttpsUtils {
     public MyTrustManager mMyTrustManager;
 

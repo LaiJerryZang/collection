@@ -7,12 +7,12 @@ import tw.com.collection.basic.base.MultiTypeAdapter;
 
 public abstract class BaseItem implements MultiTypeAdapter.IItem {
 
+    //傳入綁定Variable
     @Override
     public int getVariableId() {
         return BR.item;
     }
 
-    ////////////////////////////////////////////
     // handle event
     private View.OnClickListener onClickListener;
 

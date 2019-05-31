@@ -3,12 +3,12 @@ package tw.com.collection.basic.http;
 public interface IDataCallListener {
 
     /**
-     * 请求成功回调事件处理
+     * 成功回調處理
      */
     void onSuccess(String response);
 
     /**
-     * 请求失败回调事件处理
+     * 失敗回調處理
      */
     void onFailure(String response);
 

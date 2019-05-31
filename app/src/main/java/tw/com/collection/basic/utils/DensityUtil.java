@@ -6,7 +6,7 @@ import android.util.DisplayMetrics;
 
 public class DensityUtil {
     /**
-     * 获取屏幕宽度（像素）
+     * 取得屏幕寬度（像素）
      *
      * @param context 上下文
      * @return px
@@ -17,7 +17,7 @@ public class DensityUtil {
     }
 
     /**
-     * 获取屏幕高度（像素）
+     * 取得屏幕高度（像素）
      *
      * @param context 上下文
      * @return px
@@ -28,7 +28,7 @@ public class DensityUtil {
     }
 
     /**
-     * 获取状态栏的高度
+     * 取得狀態欄高度
      *
      * @param context 上下文
      * @return px
@@ -43,7 +43,7 @@ public class DensityUtil {
     }
 
     /**
-     * 获取标题栏（ActionBar）的高度
+     * 取得標題欄(ActionBar)高度
      *
      * @param context 上下文
      * @return px
@@ -56,7 +56,7 @@ public class DensityUtil {
     }
 
     /**
-     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     * dp -> px
      */
     public static int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
@@ -64,7 +64,7 @@ public class DensityUtil {
     }
 
     /**
-     * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
+     * px -> dp
      */
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;

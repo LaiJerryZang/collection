@@ -6,22 +6,22 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-
 import androidx.appcompat.widget.AppCompatButton;
-
-
 import tw.com.collection.basic.utils.CommonUtil;
 
-public class AnimButton extends AppCompatButton {
+/**
+ *  縮放按鈕
+ */
+public class ScaleButton extends AppCompatButton {
     boolean isMove = false;
     private OnClickListener onClickListener;
     private Handler handler = new Handler();
 
-    public AnimButton(Context context) {
+    public ScaleButton(Context context) {
         super(context);
     }
 
-    public AnimButton(Context context, AttributeSet attrs) {
+    public ScaleButton(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

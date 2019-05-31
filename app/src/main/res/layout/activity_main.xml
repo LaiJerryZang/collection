@@ -11,7 +11,7 @@
             type="tw.com.collection.mvp.activity.MainActivity" />
         <variable
             name="listener"
-            type="tw.com.collection.basic.view.AnimButton.OnClickListener" />
+            type="tw.com.collection.basic.view.ScaleButton.OnClickListener" />
     </data>
        <RelativeLayout
            android:layout_width="match_parent"

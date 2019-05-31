@@ -7,6 +7,7 @@ import tw.com.collection.basic.utils.CommonUtil;
 public class TextItem extends BaseItem {
     private String content;
 
+    //傳入layout 在adapter判斷viewType
     @Override
     public int getLayout() {
         return R.layout.item_text;
@@ -17,5 +18,6 @@ public class TextItem extends BaseItem {
         setOnClickListener(v -> CommonUtil.showToast(v.getContext(),String.valueOf(adapter.findPos(this))));
     }
 
-    public String getContext(){return content;}
+    //傳值給layout
+    public String getContent(){return content;}
 }

@@ -45,10 +45,10 @@ public class Task implements Runnable, Comparable<Task>{
         public boolean handleMessage(Message msg) {
             switch (msg.what){
                 case 0:
-                    listener.callBack(msg.obj);
+                    listener.callBack(msg.obj);//成功回調
                     break;
                 case 1:
-                    listener.error(msg.obj.toString());
+                    listener.error(msg.obj.toString());//失敗回調
                     break;
             }
             return true;
@@ -63,7 +63,7 @@ public class Task implements Runnable, Comparable<Task>{
     }
 
     /**
-     * 比較線程優先級
+     * 比較執行緒優先級
      */
     @Override
     public int compareTo(Task task) {

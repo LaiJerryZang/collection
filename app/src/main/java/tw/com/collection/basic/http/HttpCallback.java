@@ -22,7 +22,7 @@ public class HttpCallback implements Callback {
     }
 
     @Override
-    public void onFailure(@NonNull Call call, final IOException e) {
+    public void onFailure(@NonNull Call call, @NonNull final IOException e) {
         //在非UI線程，要轉
         mHandler.post(() -> {
             mListener.end();
@@ -36,6 +36,7 @@ public class HttpCallback implements Callback {
         if(response.isSuccessful()){
             assert response.body() != null;
             final String result = response.body().string();
+            //在非UI線程，要轉
             mHandler.post(() -> {
                 mListener.end();
                 mListener.onSuccess(result);

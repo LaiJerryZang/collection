@@ -1,11 +1,8 @@
 package tw.com.collection.mvp.activity;
 
-import android.view.View;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import tw.com.collection.R;
 import tw.com.collection.basic.base.BaseActivity;
 import tw.com.collection.basic.utils.CommonUtil;
@@ -23,18 +20,21 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements M
 
     @Override
     protected void initView() {
+        //設定 RecyclerView
         RecyclerView recyclerView = dataBinding.rv;
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(recyclerView.getContext());
         recyclerView.setLayoutManager(llm);
         recyclerView.setAdapter(mainPresenter.getAdapter());
 
+        //監聽 SwipeRefreshLayout 滑動
+        SwipeRefreshLayout refreshLayout = dataBinding.swipeRefreshLayout;
+        refreshLayout.setOnRefreshListener(() -> mainPresenter.LoadData(false));
     }
 
     @Override
     protected void initData() {
-        SwipeRefreshLayout refreshLayout = dataBinding.swipeRefreshLayout;
-        refreshLayout.setOnRefreshListener(() -> mainPresenter.reLoadData());
+        mainPresenter.LoadData(true);
     }
 
     @Override
@@ -60,5 +60,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements M
     @Override
     public void showToast(String msg) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        mainPresenter.Destory();
+        super.onDestroy();
     }
 }

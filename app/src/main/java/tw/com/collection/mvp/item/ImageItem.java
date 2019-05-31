@@ -11,6 +11,7 @@ import tw.com.collection.basic.utils.CommonUtil;
 public class ImageItem extends BaseItem {
     private String url;
 
+    //傳入layout 在adapter判斷viewType
     @Override
     public int getLayout() {
         return R.layout.item_image;
@@ -21,8 +22,10 @@ public class ImageItem extends BaseItem {
         setOnClickListener(v -> CommonUtil.showToast(v.getContext(),String.valueOf(adapter.findPos(this))));
     }
 
+    //傳值給layout
     public String getUrl(){return url;}
 
+    //在layout加入自訂屬性  並將layout傳入的值做處理
     @BindingAdapter({"imageUrl", "error", "placeholder"})
     public static void loadImage(ImageView imgView,
                                  String url,
