@@ -2,18 +2,14 @@ package tw.com.collection.mvp.item;
 
 import android.view.View;
 
+import tw.com.collection.BR;
 import tw.com.collection.basic.base.MultiTypeAdapter;
 
-public class BaseItem implements MultiTypeAdapter.IItem {
-
-    @Override
-    public int getLayout() {
-        return 0;
-    }
+public abstract class BaseItem implements MultiTypeAdapter.IItem {
 
     @Override
     public int getVariableId() {
-        return 0;
+        return BR.item;
     }
 
     ////////////////////////////////////////////

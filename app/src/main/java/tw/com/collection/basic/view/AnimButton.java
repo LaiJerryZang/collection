@@ -1,26 +1,15 @@
 package tw.com.collection.basic.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.databinding.BaseObservable;
-import androidx.databinding.BindingAdapter;
-import androidx.databinding.InverseBindingAdapter;
-import androidx.databinding.InverseBindingListener;
-import androidx.databinding.InverseBindingMethod;
-import androidx.databinding.InverseBindingMethods;
-import androidx.databinding.ObservableBoolean;
-import androidx.databinding.adapters.ListenerUtil;
 
 
-import tw.com.collection.R;
 import tw.com.collection.basic.utils.CommonUtil;
 
 public class AnimButton extends AppCompatButton {
@@ -89,7 +78,7 @@ public class AnimButton extends AppCompatButton {
             return true;
         }
         // Handle the action for the custom click here
-        if (!CommonUtil.isFastDoubleClick()) {
+        if (CommonUtil.isFastToClick()) {
             onClickListener.onClick(this);
         }
 

@@ -59,8 +59,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements M
 
     @Override
     public void showToast(String msg) {
-        CommonUtil.showToast(this,msg);
+
     }
-
-
 }

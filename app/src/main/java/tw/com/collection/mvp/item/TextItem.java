@@ -1,36 +1,21 @@
 package tw.com.collection.mvp.item;
 
-import android.view.View;
-
-import tw.com.collection.BR;
 import tw.com.collection.R;
 import tw.com.collection.basic.base.MultiTypeAdapter;
+import tw.com.collection.basic.utils.CommonUtil;
 
 public class TextItem extends BaseItem {
-    private ItemContract itemContract;
     private String content;
 
     @Override
     public int getLayout() {
-        return R.layout.item_tv;
+        return R.layout.item_text;
     }
 
-    @Override
-    public int getVariableId() {
-        return BR.item;
-    }
-
-    public String getText() {
-        return content;
-    }
-
-    public TextItem(String content, ItemContract contract, MultiTypeAdapter adapter) {
+    public TextItem(String content, MultiTypeAdapter adapter) {
         this.content = content;
-        this.itemContract = contract;
-        setOnClickListener(v -> {
-            itemContract.onClick(v,adapter.findPos(this));
-        });
+        setOnClickListener(v -> CommonUtil.showToast(v.getContext(),String.valueOf(adapter.findPos(this))));
     }
 
-
+    public String getContext(){return content;}
 }

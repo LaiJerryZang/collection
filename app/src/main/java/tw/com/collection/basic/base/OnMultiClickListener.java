@@ -10,7 +10,7 @@ public abstract class OnMultiClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        if(!CommonUtil.isFastDoubleClick()){
+        if(CommonUtil.isFastToClick()){
             onMultiClick(view);
         }
     }

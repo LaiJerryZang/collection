@@ -11,14 +11,14 @@ public class CommonUtil {
     private static long lastClickTime;
 
     //避免重複點擊
-    public static boolean isFastDoubleClick() {
+    public static boolean isFastToClick() {
         long time = System.currentTimeMillis();
         long timeD = time - lastClickTime;
         if ( 0 < timeD && timeD < 1000) {
-            return true;
+            return false;
         }
         lastClickTime = time;
-        return false;
+        return true;
     }
 
     //檢查網路
@@ -35,6 +35,7 @@ public class CommonUtil {
         objectAnimator.start();
     }
 
+    //顯示Toast
     public static void showToast(Context context, String message){
         Toast.makeText(context,message,Toast.LENGTH_LONG).show();
     }
