@@ -70,9 +70,9 @@ public abstract class BaseActivity<DB extends ViewDataBinding> extends AppCompat
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (dataBinding != null) {
             dataBinding.unbind();
         }
+        super.onDestroy();
     }
 }

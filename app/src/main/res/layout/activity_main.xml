@@ -27,6 +27,16 @@
                    android:layout_height="match_parent">
                </androidx.recyclerview.widget.RecyclerView>
            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+           <tw.com.collection.basic.view.ScaleButton
+               android:id="@+id/btn"
+               android:layout_width="50sp"
+               android:layout_height="50sp"
+               android:layout_alignParentEnd="true"
+               android:layout_alignParentBottom="true"
+               android:layout_marginEnd="8sp"
+               android:layout_marginBottom="8sp"
+               android:background="@drawable/ic_launcher_top" />
        </RelativeLayout>
 
 

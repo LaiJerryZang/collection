@@ -18,6 +18,8 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<MultiTypeAdapter.Item
 
             // get the variable name in the xml
             int getVariableId();
+
+            void setPosition(int position);
         }
 
         private List<IItem> items = new ArrayList<>();
@@ -32,6 +34,7 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<MultiTypeAdapter.Item
         @Override
         public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
             holder.bindTo(items.get(position));
+            items.get(position).setPosition(position);
         }
 
         @Override

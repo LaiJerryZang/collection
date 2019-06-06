@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">MVP</string>
     <string name="load">加載中…</string>
+    <string name="contentDescription">iImage</string>
+    <string name="tv_retry">~~~~~加載錯誤，請重試~~~~~</string>
+    <string name="btn_retry">Retry</string>
 </resources>

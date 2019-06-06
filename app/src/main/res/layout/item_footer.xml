@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="item"
+            type="tw.com.collection.mvp.item.FooterItem" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:tag="layout/item_footer_0">
+
+        <!-- LOADING state-->
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="8dp"
+            android:visibility="@{item.loading ? View.VISIBLE : View.GONE}" />
+
+        <!-- ERROR state -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingStart="5sp"
+            android:paddingEnd="5sp"
+            android:visibility="@{item.error ? View.VISIBLE : View.GONE}">
+
+            <TextView
+                android:layout_width="0sp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/tv_retry"
+                android:textAlignment="center" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:background="@color/colorAccent"
+                android:text="@string/btn_retry"
+                android:textAllCaps="false"
+                android:textColor="#ffffff"
+                app:onClickListener="@{item.onClickListener}" />
+        </LinearLayout>
+
+    </FrameLayout>
+</layout>

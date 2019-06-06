@@ -1,6 +1,7 @@
 package tw.com.collection.mvp.item;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.widget.ImageView;
 import androidx.databinding.BindingAdapter;
 import com.bumptech.glide.Glide;
@@ -10,16 +11,21 @@ import tw.com.collection.basic.utils.CommonUtil;
 
 public class ImageItem extends BaseItem {
     private String url;
-
+    private int position = 0;
     //傳入layout 在adapter判斷viewType
     @Override
     public int getLayout() {
         return R.layout.item_image;
     }
 
+    @Override
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
     public ImageItem(String url, MultiTypeAdapter adapter) {
         this.url = url;
-        setOnClickListener(v -> CommonUtil.showToast(v.getContext(),String.valueOf(adapter.findPos(this))));
+        setOnClickListener(v -> CommonUtil.showToast(v.getContext(),position+""));
     }
 
     //傳值給layout

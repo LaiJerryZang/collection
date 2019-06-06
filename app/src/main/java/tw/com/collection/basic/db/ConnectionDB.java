@@ -25,14 +25,12 @@ public class ConnectionDB extends SQLiteOpenHelper {
         }
     }
 
-    public static ConnectionDB getInstance(){
-        if(connectionDB == null){
+    public static ConnectionDB getInstance() {
+        if (connectionDB == null) {
             throw new NullPointerException("not init");
         }
         return connectionDB;
     }
-
-
 
     private ConnectionDB(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -43,12 +41,8 @@ public class ConnectionDB extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         SQL_CreateLine SQLine = new SQL_CreateLine();
         String[] cSQL = SQLine.LineString();
-        int iLineMax = SQLine.MaxLine();
-        //String cSQ = SQLine.TABLE_CREATE_L;
 
-
-        //db.execSQL(cSQ);
-        for (int i = 0; i < iLineMax; i++) {
+        for (int i = 0; i < SQL_CreateLine.MAX_TABLE_LINE; i++) {
             try {
                 if (cSQL[i].length() > 0) {
                     db.execSQL(cSQL[i]);
@@ -57,36 +51,22 @@ public class ConnectionDB extends SQLiteOpenHelper {
                 e.printStackTrace();
             }
         }
-
-        for (int i = 1; i <= 800; i++) {
-            try {
-                db.execSQL("INSERT INTO mail_order (sn, address) VALUES(" + i + ", '')");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        Log.i("onCreate", "onCreate");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         SQL_UpdateLine SQLine = new SQL_UpdateLine();
         String[] cSQL = SQLine.LineString();
-        int iLineMax = SQLine.MaxLine();
 
-        //db.execSQL(cSQ);
-        if (iLineMax > 0) {
-            for (int i = 0; i < iLineMax; i++) {
-                try {
-                    if (cSQL[i].length() > 0) {
-                        db.execSQL(cSQL[i]);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+        for (int i = 0; i < SQL_UpdateLine.MAX_TABLE_LINE; i++) {
+            try {
+                if (cSQL[i].length() > 0) {
+                    db.execSQL(cSQL[i]);
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-        Log.i("onUpgrade", "onUpgrade");
     }
 
     public String ExecSQL(String sql) {
@@ -213,31 +193,31 @@ public class ConnectionDB extends SQLiteOpenHelper {
 
         } catch (Exception e) {
             e.printStackTrace();
-            if(!cursor.isClosed())cursor.close();
+            if (!cursor.isClosed()) cursor.close();
         }
 
         return dt;
     }
 
-    public JSONArray jSelect(String sql){
+    public JSONArray jSelect(String sql) {
         SQLiteDatabase db = getReadableDatabase();
         JSONArray jsonArray = new JSONArray();
         boolean error = false;
         Cursor cursor = null;
-        for(int i=0;i<3;i++){
+        for (int i = 0; i < 3; i++) {
             try {
-                cursor = db.rawQuery(sql,null);
+                cursor = db.rawQuery(sql, null);
                 error = false;
-            }catch (Exception e){
-                Log.i("Select("+i+")：", e.getMessage() + sql);
+            } catch (Exception e) {
+                Log.i("Select(" + i + ")：", e.getMessage() + sql);
                 error = true;
             }
-            if(!error){
+            if (!error) {
                 break;
             }
         }
 
-        if(error){
+        if (error) {
             return jsonArray;
         }
 
@@ -274,19 +254,21 @@ public class ConnectionDB extends SQLiteOpenHelper {
                         default:
                             value = cursor.getString(i);
                     }
-                    jsonObject.put(cursor.getColumnName(i),value);
+                    jsonObject.put(cursor.getColumnName(i), value);
                 }
                 jsonArray.put(jsonObject);
             }
-            cursor.close();
-
         } catch (Exception e) {
             e.printStackTrace();
-            if(!cursor.isClosed())cursor.close();
         }
 
-        cursor.close();
+        if (!cursor.isClosed()) cursor.close();
         return jsonArray;
     }
 
+    @Override
+    public synchronized void close() {
+        super.close();
+        connectionDB = null;
+    }
 }

@@ -7,20 +7,20 @@ import java.util.concurrent.TimeUnit;
 
 public class ThreadPoolManager {
     private static ThreadPoolManager Instance;
-    private static ExecutorService threadpool;
+    private static ExecutorService executorService;
 
     /**
      * 取得單例物件
      */
     public static ThreadPoolManager getInstance() {
         if (Instance == null) {
-            return new ThreadPoolManager();
+            Instance = new ThreadPoolManager();
         }
         return Instance;
     }
 
     private ThreadPoolManager() {
-        if (threadpool == null) {
+        if (executorService == null) {
             /**
              * corePoolSize 核心線程 1
              * maximumPoolSize 最大線程數量 100
@@ -28,8 +28,17 @@ public class ThreadPoolManager {
              * TimeUnit 單位 秒
              * PriorityBlockingQueue 優先級列隊
              */
-            threadpool = new ThreadPoolExecutor(1, 100, 15, TimeUnit.SECONDS, new PriorityBlockingQueue<Runnable>());
+            executorService = new ThreadPoolExecutor(1, 100, 15, TimeUnit.SECONDS, new PriorityBlockingQueue<Runnable>());
         }
+    }
+
+    /**
+     * 列隊加入線程 預設優先級 0
+     *
+     * @param listener 回調介面
+     */
+    public final void addTask(ITaskCallListener listener) {
+        executorService.execute(new Task(listener,0));
     }
 
     /**
@@ -39,7 +48,6 @@ public class ThreadPoolManager {
      * @param priority 線程執行的優先級 0:高 1:中 2:低
      */
     public final void addTask(ITaskCallListener listener, int priority) {
-//        taskQueue.add(new Task(listener, priority));
-        threadpool.execute(new Task(listener,priority));
+        executorService.execute(new Task(listener,priority));
     }
 }

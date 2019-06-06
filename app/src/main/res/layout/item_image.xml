@@ -23,10 +23,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
-                app:error="@{@drawable/ic_launcher_background}"
+                app:error="@{@drawable/img_placeholder}"
                 app:imageUrl="@{item.Url}"
-                app:placeholder="@{@drawable/ic_launcher_background}"
-                android:contentDescription="@string/app_name"
+                app:placeholder="@{@drawable/img_placeholder}"
+                android:contentDescription="@string/contentDescription"
                 app:onClickListener="@{item.onClickListener}"/>
         </FrameLayout>
     </androidx.cardview.widget.CardView>

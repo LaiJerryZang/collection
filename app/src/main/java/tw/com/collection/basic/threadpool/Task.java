@@ -11,7 +11,7 @@ public class Task implements Runnable, Comparable<Task>{
 
     private int priority;
 
-    public int getPriority() {
+    private int getPriority() {
         return priority;
     }
 
