@@ -4,4 +4,5 @@
     <string name="contentDescription">iImage</string>
     <string name="tv_retry">~~~~~加載錯誤，請重試~~~~~</string>
     <string name="btn_retry">Retry</string>
+    <string name="transition_name">img_transition</string>
 </resources>

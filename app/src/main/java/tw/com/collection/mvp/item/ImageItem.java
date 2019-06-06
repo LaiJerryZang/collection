@@ -1,7 +1,7 @@
 package tw.com.collection.mvp.item;
 
 import android.graphics.drawable.Drawable;
-import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import androidx.databinding.BindingAdapter;
 import com.bumptech.glide.Glide;
@@ -12,6 +12,8 @@ import tw.com.collection.basic.utils.CommonUtil;
 public class ImageItem extends BaseItem {
     private String url;
     private int position = 0;
+    private clickCallBack callBack;
+
     //傳入layout 在adapter判斷viewType
     @Override
     public int getLayout() {
@@ -23,13 +25,19 @@ public class ImageItem extends BaseItem {
         this.position = position;
     }
 
-    public ImageItem(String url, MultiTypeAdapter adapter) {
+    public ImageItem(String url, MultiTypeAdapter adapter, clickCallBack callBack) {
         this.url = url;
-        setOnClickListener(v -> CommonUtil.showToast(v.getContext(),position+""));
+        this.callBack = callBack;
+        setOnClickListener(v -> {
+            CommonUtil.showToast(v.getContext(), position + "");
+            callBack.click(v);
+        });
     }
 
     //傳值給layout
-    public String getUrl(){return url;}
+    public String getUrl() {
+        return url;
+    }
 
     //在layout加入自訂屬性  並將layout傳入的值做處理
     @BindingAdapter({"imageUrl", "error", "placeholder"})
@@ -42,5 +50,9 @@ public class ImageItem extends BaseItem {
                 .error(error)
                 .placeholder(placeholder)
                 .into(imgView);
+    }
+
+    public interface clickCallBack{
+        void click(View view);
     }
 }

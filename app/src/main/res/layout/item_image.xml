@@ -9,6 +9,10 @@
             name="item"
             type="tw.com.collection.mvp.item.ImageItem"/>
 
+        <variable
+            name="main"
+            type="tw.com.collection.mvp.activity.MainActivity"/>
+
     </data>
 
     <androidx.cardview.widget.CardView
@@ -27,7 +31,8 @@
                 app:imageUrl="@{item.Url}"
                 app:placeholder="@{@drawable/img_placeholder}"
                 android:contentDescription="@string/contentDescription"
-                app:onClickListener="@{item.onClickListener}"/>
+                app:onClickListener="@{item.onClickListener}"
+                android:transitionName="@string/transition_name" />
         </FrameLayout>
     </androidx.cardview.widget.CardView>
 </layout>

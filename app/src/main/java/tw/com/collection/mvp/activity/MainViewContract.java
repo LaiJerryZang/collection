@@ -1,5 +1,7 @@
 package tw.com.collection.mvp.activity;
 
+import android.view.View;
+
 /**
  * presenter -> main
  */
@@ -31,4 +33,6 @@ public interface MainViewContract {
      * @param msg 訊息
      */
     void showToast(String msg);
+
+    void callBack(View view);
 }

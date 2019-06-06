@@ -1,9 +1,16 @@
 package tw.com.collection.mvp.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -80,8 +87,19 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements M
     }
 
     @Override
+    public void callBack(View view) {
+        openActivity(view,"img_transition");
+    }
+
+    @Override
     protected void onDestroy() {
         mainPresenter.Destroy();
         super.onDestroy();
+    }
+
+    private void openActivity(View view, String transitionName) {
+        Pair<View, String> imagePair = Pair.create(view, transitionName);
+        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view,transitionName);
+        ActivityCompat.startActivity(this, new Intent(this, SecondActivity.class), compat.toBundle());
     }
 }
