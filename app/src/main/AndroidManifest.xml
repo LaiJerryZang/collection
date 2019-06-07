@@ -13,16 +13,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".mvp.activity.MainActivity"
-            android:theme="@style/transitionsTheme">
+        <activity android:name=".mvp.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvp.activity.SecondActivity"
-            android:theme="@style/transitionsTheme"/>
+        <activity android:name=".mvp.activity.SecondActivity" />
     </application>
 
 </manifest>

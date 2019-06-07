@@ -99,7 +99,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements M
 
     private void openActivity(View view, String transitionName) {
         Pair<View, String> imagePair = Pair.create(view, transitionName);
-        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view,transitionName);
+        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view,view.getTransitionName());
         ActivityCompat.startActivity(this, new Intent(this, SecondActivity.class), compat.toBundle());
     }
 }

@@ -7,11 +7,22 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import tw.com.collection.R;
+import tw.com.collection.basic.base.BaseActivity;
 
-public class SecondActivity extends AppCompatActivity {
+public class SecondActivity extends BaseActivity {
+
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-        setContentView(R.layout.activity_second);
+    protected int setLayout() {
+        return R.layout.activity_second;
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void initData() {
+
     }
 }
