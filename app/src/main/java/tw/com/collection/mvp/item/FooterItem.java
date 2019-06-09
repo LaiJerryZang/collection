@@ -1,7 +1,5 @@
 package tw.com.collection.mvp.item;
 
-import android.util.Log;
-
 import tw.com.collection.R;
 
 public class FooterItem extends BaseItem{

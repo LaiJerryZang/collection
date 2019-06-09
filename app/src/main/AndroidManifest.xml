@@ -4,7 +4,8 @@
     package="tw.com.collection">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher_cloud"
@@ -13,14 +14,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".mvp.activity.MainActivity">
+        <activity
+            android:name=".mvp.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvp.activity.SecondActivity" />
+        <activity
+            android:name=".mvp.second.SecondActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/fullScreenTheme"/>
     </application>
 
 </manifest>

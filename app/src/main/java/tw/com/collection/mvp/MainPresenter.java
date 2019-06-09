@@ -1,6 +1,4 @@
-package tw.com.collection.mvp.presenter;
-
-import android.view.View;
+package tw.com.collection.mvp;
 
 import com.badoo.mobile.util.WeakHandler;
 
@@ -16,13 +14,11 @@ import java.util.Random;
 
 import tw.com.collection.basic.base.MultiTypeAdapter;
 import tw.com.collection.basic.http.IDataCallListener;
-import tw.com.collection.mvp.activity.MainViewContract;
 import tw.com.collection.mvp.item.FooterItem;
 import tw.com.collection.mvp.item.ImageItem;
 import tw.com.collection.mvp.item.TextItem;
-import tw.com.collection.mvp.model.MainModel;
 
-public class MainPresenter implements ImageItem.clickCallBack {
+public class MainPresenter {
     private MainViewContract mainViewContract;
     private MultiTypeAdapter adapter = new MultiTypeAdapter();
     private MainModel mainModel = new MainModel();
@@ -63,13 +59,18 @@ public class MainPresenter implements ImageItem.clickCallBack {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             String title = jsonObject.optString("title", "not title");
                             String url = jsonObject.optString("imageUrl", "not img");
+                            String description = jsonObject.optString("descriptionFilterHtml","no description");
                             map.put("title", title);
                             map.put("imageUrl", url);
+                            map.put("description",description);
                             data.add(map);
                         }
                         addDataItem();
-                        weakHandler.post(() -> adapter.notifyDataSetChanged());
-                        mainViewContract.setRefreshing(false);
+                        weakHandler.post(() -> {
+                            adapter.notifyDataSetChanged();
+                            mainViewContract.setRefreshing(false);
+                        });
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -120,24 +121,19 @@ public class MainPresenter implements ImageItem.clickCallBack {
                 addDataItem();
                 adapter.notifyDataSetChanged();
                 footerItem.setState(FooterItem.NO_STATE);
-            },1000);
+            }, 1000);
         }
     }
 
     private void addDataItem() {
         for (int i = LAST_DATA_POS; i < LAST_DATA_POS + MORE_DATA_QTY; i++) {
             adapter.addItem(new TextItem(data.get(i).get("title"), adapter));
-            adapter.addItem(new ImageItem(data.get(i).get("imageUrl"), adapter, this));
+            adapter.addItem(new ImageItem(data.get(i), adapter));
         }
         LAST_DATA_POS += MORE_DATA_QTY;
     }
 
     public void Destroy() {
         mainViewContract = null;
-    }
-
-    @Override
-    public void click(View view) {
-        mainViewContract.callBack(view);
     }
 }

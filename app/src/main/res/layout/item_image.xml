@@ -11,7 +11,7 @@
 
         <variable
             name="main"
-            type="tw.com.collection.mvp.activity.MainActivity"/>
+            type="tw.com.collection.mvp.MainActivity"/>
 
     </data>
 

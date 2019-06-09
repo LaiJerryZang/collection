@@ -1,28 +1,25 @@
-package tw.com.collection.mvp.activity;
+package tw.com.collection.mvp;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.util.Pair;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import tw.com.collection.R;
 import tw.com.collection.basic.base.BaseActivity;
 import tw.com.collection.basic.utils.CommonUtil;
 import tw.com.collection.basic.view.ScaleButton;
 import tw.com.collection.databinding.ActivityMainBinding;
-import tw.com.collection.mvp.presenter.MainPresenter;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> implements MainViewContract {
     private MainPresenter mainPresenter = new MainPresenter(this);
+    private boolean scrollFlag = false;
 
     @Override
     protected int setLayout() {
@@ -40,10 +37,36 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements M
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE &&
-                        llm.findLastVisibleItemPosition() >= mainPresenter.getAdapter().getItemCount() - 2) {
+                //最底部並停止動作才更新
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE &&
+//                        llm.findLastVisibleItemPosition() >= mainPresenter.getAdapter().getItemCount() - 2) {
+//                    mainPresenter.loadMoreData();
+//                }
+
+                //在滑動時到倒數第7個item更新
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING &&
+                        llm.findLastVisibleItemPosition() >= mainPresenter.getAdapter().getItemCount() - 7) {
                     mainPresenter.loadMoreData();
                 }
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy > 0) {//手指上滑
+                    if (!scrollFlag && dataBinding.btn.getAlpha() == 1.0f) {
+                        alphaAnim(dataBinding.btn, 1.0f, 0f);
+                    }
+                    scrollFlag = true;
+                } else {
+                    if (scrollFlag && dataBinding.btn.getAlpha() == 0f) {
+                        dataBinding.btn.setVisibility(View.VISIBLE);
+                        alphaAnim(dataBinding.btn, 0f, 1.0f);
+                    }
+                    scrollFlag = false;
+                }
+                Log.d("dy", dy + "");
             }
         });
 
@@ -68,7 +91,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements M
 
     @Override
     public void Error(String exception) {
-        CommonUtil.showToast(this,exception);
+        CommonUtil.showToast(this, exception);
     }
 
     @Override
@@ -83,12 +106,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements M
 
     @Override
     public void showToast(String msg) {
-        CommonUtil.showToast(this,msg);
-    }
-
-    @Override
-    public void callBack(View view) {
-        openActivity(view,"img_transition");
+        CommonUtil.showToast(this, msg);
     }
 
     @Override
@@ -97,9 +115,19 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements M
         super.onDestroy();
     }
 
-    private void openActivity(View view, String transitionName) {
-        Pair<View, String> imagePair = Pair.create(view, transitionName);
-        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view,view.getTransitionName());
-        ActivityCompat.startActivity(this, new Intent(this, SecondActivity.class), compat.toBundle());
+    private void alphaAnim(View view, float... values) {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(view, "alpha", values);
+        animator.setDuration(500);
+        animator.start();
+
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                if (dataBinding.btn.getAlpha() == 0f) {
+                    dataBinding.btn.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 }

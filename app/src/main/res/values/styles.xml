@@ -8,25 +8,28 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!--对话框的样式-->
+    <!--對話框樣式-->
     <style name="LoadingDialog">
-        <!--对话框背景 -->
+        <!--對話框背景 -->
         <item name="android:windowBackground">@android:color/transparent</item>
-        <!--边框 -->
+        <!--邊框 -->
         <item name="android:windowFrame">@null</item>
-        <!--没有标题 -->
+        <!--沒有標題 -->
         <item name="android:windowNoTitle">true</item>
-        <!-- 是否浮现在Activity之上 -->
+        <!-- 是否浮現在Activity之上 -->
         <item name="android:windowIsFloating">true</item>
         <!--背景透明 -->
         <item name="android:windowIsTranslucent">false</item>
         <!-- 是否有覆盖 -->
         <item name="android:windowContentOverlay">@null</item>
-        <!--背景变暗-->
+        <!--背景變暗-->
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
-    <style name="transitionsTheme" parent="AppTheme">
-        <item name="android:windowContentTransitions">true</item>
+    <style name="fullScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 </resources>
