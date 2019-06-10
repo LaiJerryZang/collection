@@ -1,5 +1,7 @@
 package tw.com.collection.mvp;
 
+import android.util.Log;
+
 import com.badoo.mobile.util.WeakHandler;
 
 import org.json.JSONArray;
@@ -52,9 +54,10 @@ public class MainPresenter {
                 new Thread(() -> {
                     try {
                         adapter.clearItems();
+                        data.clear();
                         LAST_DATA_POS = 0;
                         JSONArray jsonArray = new JSONArray(response);
-                        for (int i = 0; i < jsonArray.length(); i++) {
+                        for (int i = 0; i < 50; i++) {
                             Map<String, String> map = new HashMap<>();
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             String title = jsonObject.optString("title", "not title");
@@ -96,17 +99,17 @@ public class MainPresenter {
 
     //加載更多
     public void loadMoreData() {
-        if (footerItem.isNoMore() || footerItem.isLoading() || footerItem.isError()) {
+        if (footerItem.isNoMore() || footerItem.isLoading() || footerItem.isError() || LAST_DATA_POS > data.size()-1) {
             return;
         }
         setFooterItems();
     }
 
     private void setFooterItems() {
-        // result = 0, network error
-        // result = 1, empty
-        // result = 2, last page data
-        // result = 3 and other, normal result
+//         result = 0, network error
+//         result = 1, empty
+//         result = 2, last page data
+//         result = 3 and other, normal result
         int resultType = (new Random()).nextInt(100) % 5;
         if (resultType == 0) {
             adapter.addItem(footerItem.setState(FooterItem.ERROR));
@@ -121,14 +124,16 @@ public class MainPresenter {
                 addDataItem();
                 adapter.notifyDataSetChanged();
                 footerItem.setState(FooterItem.NO_STATE);
-            }, 1000);
+            }, 500);
         }
     }
 
     private void addDataItem() {
         for (int i = LAST_DATA_POS; i < LAST_DATA_POS + MORE_DATA_QTY; i++) {
-            adapter.addItem(new TextItem(data.get(i).get("title"), adapter));
-            adapter.addItem(new ImageItem(data.get(i), adapter));
+            if(i <= data.size()-1) {
+                adapter.addItem(new TextItem(data.get(i).get("title"), adapter));
+                adapter.addItem(new ImageItem(data.get(i), adapter));
+            }
         }
         LAST_DATA_POS += MORE_DATA_QTY;
     }

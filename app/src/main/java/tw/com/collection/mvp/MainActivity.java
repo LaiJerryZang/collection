@@ -59,14 +59,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements M
                         alphaAnim(dataBinding.btn, 1.0f, 0f);
                     }
                     scrollFlag = true;
-                } else {
+                } else if(dy < 0){
                     if (scrollFlag && dataBinding.btn.getAlpha() == 0f) {
                         dataBinding.btn.setVisibility(View.VISIBLE);
                         alphaAnim(dataBinding.btn, 0f, 1.0f);
                     }
                     scrollFlag = false;
                 }
-                Log.d("dy", dy + "");
             }
         });
 
@@ -106,7 +105,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements M
 
     @Override
     public void showToast(String msg) {
-        CommonUtil.showToast(this, msg);
+        CommonUtil.showToast(this,msg);
     }
 
     @Override

@@ -2,7 +2,6 @@ package tw.com.collection.mvp.second;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.widget.TextView;
 import java.io.FileNotFoundException;
 import tw.com.collection.R;
 import tw.com.collection.basic.base.BaseActivity;
@@ -20,13 +19,13 @@ public class SecondActivity extends BaseActivity<ActivitySecondBinding> implemen
     @Override
     protected void initView() {
         Intent intent = getIntent();
-        dataBinding.cToolbarLy.setTitle(intent.getStringExtra("title"));
+        dataBinding.tvTitle.setText(intent.getStringExtra("title"));
         try {
             secondPresenter.getImage(openFileInput(intent.getStringExtra("image")));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        dataBinding.tv.setText(intent.getStringExtra("description"));
+        dataBinding.tvDescription.setText(intent.getStringExtra("description"));
     }
 
     @Override

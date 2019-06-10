@@ -37,7 +37,7 @@ public class ScaleButton extends AppCompatButton {
         // Listening for the down and up touch events
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                handler.post(() -> Scale(0.8f));
+                handler.post(() -> Scale(0.9f));
                 break;
 
             case MotionEvent.ACTION_MOVE:

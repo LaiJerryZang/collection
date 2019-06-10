@@ -49,4 +49,7 @@ dependencies {
     implementation 'com.badoo.mobile:android-weak-handler:1.1'
     //glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'
+    //shapeofview
+    implementation 'com.github.florent37:shapeofview:1.4.7'
+
 }
