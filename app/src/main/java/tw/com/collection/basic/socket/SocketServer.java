@@ -4,6 +4,7 @@ import com.badoo.mobile.util.WeakHandler;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -42,16 +43,19 @@ public class SocketServer {
 
     @SuppressWarnings("InfiniteLoopStatement")
     public void start(){
-        try {
-            while (true){
-                handler.post(()->socketCallBack.MessageBack("等待連線中"));
-                Socket socket = socketServer.accept();//等待連接
-                InetAddress address = socket.getInetAddress();//取得ip
-                handler.post(()->socketCallBack.MessageBack(address+"連線成功"));
+        executorService.execute(()->{
+            try {
+                while (true){
+                    handler.post(()->socketCallBack.MessageBack("等待連線中"));
+                    Socket socket = socketServer.accept();//等待連接
+                    InetAddress address = socket.getInetAddress();//取得ip
+                    handler.post(()->socketCallBack.MessageBack(address+"連線成功"));
+                    executorService.execute(new ReadThread(socket));
+                }
+            }catch (Exception e){
+                e.printStackTrace();
             }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        });
     }
 
     // 将客户端的信息以Map形式存入集合中
@@ -108,26 +112,26 @@ public class SocketServer {
                  * 通过客户端的Socket获取输入流 读取客户端发送来的信息
                  */
                 BufferedInputStream in = new BufferedInputStream(socket.getInputStream());
-                String msgString = null;
-                int size = 0;
-                while ((size = in.read(data)) != -1) {
-                    // 检验是否为私聊（格式：@昵称：内容）
-                    if (msgString.startsWith("@")) {
-                        int index = msgString.indexOf(":");
-                        if (index >= 0) {
-                            // 获取昵称
-                            String theName = msgString.substring(1, index);
-                            String info = msgString.substring(index + 1, msgString.length());
-                            info = name + "：" + info;
-                            // 将私聊信息发送出去
-                            sendToSomeone(theName, info);
-                            continue;
-                        }
-                    }
-                    // 遍历所有输出流，将该客户端发送的信息转发给所有客户端
-                    System.out.println(name + "：" + msgString);
-                    sendToAll(name + "：" + msgString);
+                StringBuilder stringBuilder = new StringBuilder();
+                while (in.read(data) != -1) {
+                    stringBuilder.append(new String(data, 0, in.read(data)));
                 }
+                String msg = stringBuilder.toString();
+                // 检验是否为私聊（格式：@昵称：内容）
+                if (msg.startsWith("@")) {
+                    int index = msg.indexOf(":");
+                    if (index >= 0) {
+                        // 获取昵称
+                        String theName = msg.substring(1, index);
+                        String info = msg.substring(index + 1);
+                        info = name + "：" + info;
+                        // 将私聊信息发送出去
+                        sendToSomeone(theName, info);
+                    }
+                }
+                // 遍历所有输出流，将该客户端发送的信息转发给所有客户端
+                System.out.println(name + "：" + msg);
+                sendToAll(name + "：" + msg);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -139,17 +143,19 @@ public class SocketServer {
                 BufferedInputStream in = new BufferedInputStream(socket.getInputStream());
                 // 服务端将昵称验证结果通过自身的输出流发送给客户端
                 BufferedOutputStream out = new BufferedOutputStream(socket.getOutputStream());
-
+                StringBuilder stringBuilder = new StringBuilder();
                 // 读取客户端发来的昵称
-                while (true) {
-                    String name = new String(data, 0, in.read(data));
-                    if ((name.trim().length() == 0) || clientInfo.containsKey(name)) {
-                        out.write("fault to client".getBytes());
-                    } else {
-                        out.write("ok".getBytes());
-                        return name;
-                    }
+                while (in.read(data) != -1) {
+                    stringBuilder.append(new String(data, 0, in.read(data)));
                 }
+                String name = stringBuilder.toString();
+                if ((name.trim().length() == 0) || clientInfo.containsKey(name)) {
+                    out.write("fault to client".getBytes());
+                } else {
+                    out.write("ok".getBytes());
+                    return name;
+                }
+
             } catch (Exception e) {
                e.printStackTrace();
             }
@@ -161,6 +167,14 @@ public class SocketServer {
     private void sendMessage(BufferedOutputStream out, String msg)throws Exception{
         out.write(msg.getBytes());
         out.flush();
+    }
+
+    public void close(){
+        try {
+            socketServer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

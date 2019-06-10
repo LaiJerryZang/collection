@@ -13,6 +13,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import tw.com.collection.R;
 import tw.com.collection.basic.base.BaseActivity;
+import tw.com.collection.basic.socket.SocketClient;
+import tw.com.collection.basic.socket.SocketServer;
 import tw.com.collection.basic.utils.CommonUtil;
 import tw.com.collection.basic.view.ScaleButton;
 import tw.com.collection.databinding.ActivityMainBinding;
@@ -76,6 +78,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements M
         //回到最上方
         ScaleButton button = dataBinding.btn;
         button.setOnClickListener((ScaleButton.OnClickListener) v -> recyclerView.smoothScrollToPosition(0));
+//        SocketServer socketServer = new SocketServer(msg -> CommonUtil.showToast(this,msg));
+//        socketServer.start();
+        SocketClient socketClient = new SocketClient("http://192.168.0.167",6666,"jerry",msg->CommonUtil.showToast(this,msg));
+        socketClient.start();
     }
 
     @Override
