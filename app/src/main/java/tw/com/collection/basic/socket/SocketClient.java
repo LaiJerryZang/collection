@@ -2,7 +2,6 @@ package tw.com.collection.basic.socket;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
