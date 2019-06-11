@@ -16,8 +16,8 @@ public class HttpCallback implements Callback {
     private Handler mHandler;
     private IDataCallListener mListener;
 
-    public HttpCallback(IDataCallListener IDataCallListener){
-        this.mListener = IDataCallListener;
+    public HttpCallback(IDataCallListener listener){
+        this.mListener = listener;
         this.mHandler = new Handler(Looper.getMainLooper());
     }
 

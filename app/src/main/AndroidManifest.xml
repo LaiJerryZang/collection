@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".mvp.MainActivity"
+            android:name=".mvp.main.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,6 +27,15 @@
             android:name=".mvp.second.SecondActivity"
             android:screenOrientation="portrait"
             android:theme="@style/fullScreenTheme"/>
+        <activity
+            android:name=".mvp.serversocket.ServerSocketActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/fullScreenTheme"/>
+        <activity
+            android:name=".mvp.socket.SocketActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/fullScreenTheme"/>
+
     </application>
 
 </manifest>

@@ -5,7 +5,7 @@
 
         <variable
             name="item"
-            type="tw.com.collection.mvp.item.TextItem"/>
+            type="tw.com.collection.mvp.main.item.TextItem"/>
 
     </data>
 

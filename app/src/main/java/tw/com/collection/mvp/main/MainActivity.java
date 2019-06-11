@@ -1,15 +1,19 @@
-package tw.com.collection.mvp;
+package tw.com.collection.mvp.main;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.util.Log;
+import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.badoo.mobile.util.WeakHandler;
 
 import tw.com.collection.R;
 import tw.com.collection.basic.base.BaseActivity;
@@ -18,9 +22,11 @@ import tw.com.collection.basic.socket.SocketServer;
 import tw.com.collection.basic.utils.CommonUtil;
 import tw.com.collection.basic.view.ScaleButton;
 import tw.com.collection.databinding.ActivityMainBinding;
+import tw.com.collection.mvp.serversocket.ServerSocketActivity;
+import tw.com.collection.mvp.socket.SocketActivity;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> implements MainViewContract {
-    private MainPresenter mainPresenter = new MainPresenter(this);
+    private MainPresenter mainPresenter;
     private boolean scrollFlag = false;
 
     @Override
@@ -30,6 +36,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements M
 
     @Override
     protected void initView() {
+        mainPresenter = new MainPresenter(this);
         //設定 RecyclerView
         RecyclerView recyclerView = dataBinding.rv;
         recyclerView.setHasFixedSize(true);
@@ -78,10 +85,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements M
         //回到最上方
         ScaleButton button = dataBinding.btn;
         button.setOnClickListener((ScaleButton.OnClickListener) v -> recyclerView.smoothScrollToPosition(0));
-//        SocketServer socketServer = new SocketServer(msg -> CommonUtil.showToast(this,msg));
-//        socketServer.start();
-        SocketClient socketClient = new SocketClient("http://192.168.0.167",6666,"jerry",msg->CommonUtil.showToast(this,msg));
-        socketClient.start();
+
+//        new SocketServer(6666, msg -> {
+//            CommonUtil.showToast(this,msg);
+//        }).start();
+//
+//        new WeakHandler().postDelayed(()->new SocketClient("192.168.0.167",6666,msg->CommonUtil.showToast(this,msg)).start(),3000);
     }
 
     @Override
@@ -114,12 +123,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements M
         CommonUtil.showToast(this,msg);
     }
 
-    @Override
-    protected void onDestroy() {
-        mainPresenter.Destroy();
-        super.onDestroy();
-    }
-
     private void alphaAnim(View view, float... values) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(view, "alpha", values);
         animator.setDuration(500);
@@ -134,5 +137,26 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements M
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent();
+        switch (item.getItemId()){
+            case R.id.serverSocket:
+                intent.setClass(this, ServerSocketActivity.class);
+                break;
+            case R.id.clientSocket:
+                intent.setClass(this, SocketActivity.class);
+                break;
+        }
+        startActivity(intent);
+        return super.onOptionsItemSelected(item);
     }
 }

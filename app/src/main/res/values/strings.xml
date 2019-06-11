@@ -5,4 +5,8 @@
     <string name="tv_retry">~~~~~加載錯誤，請重試~~~~~</string>
     <string name="btn_retry">Retry</string>
     <string name="transition_name">img_transition</string>
+    <string name="ServerSocket">serverSocket</string>
+    <string name="ClientSocket">clientSocket</string>
+    <string name="Message">message</string>
+    <string name="Send">送出</string>
 </resources>

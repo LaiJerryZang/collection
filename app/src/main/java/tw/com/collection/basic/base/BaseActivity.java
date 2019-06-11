@@ -73,6 +73,7 @@ public abstract class BaseActivity<DB extends ViewDataBinding> extends AppCompat
         if (dataBinding != null) {
             dataBinding.unbind();
         }
+        dismissDialog();
         super.onDestroy();
     }
 }

@@ -34,7 +34,4 @@ public class SecondPresenter {
         });
     }
 
-    public void Destroy() {
-        secondViewContract = null;
-    }
 }

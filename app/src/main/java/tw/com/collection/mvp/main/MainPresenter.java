@@ -1,6 +1,4 @@
-package tw.com.collection.mvp;
-
-import android.util.Log;
+package tw.com.collection.mvp.main;
 
 import com.badoo.mobile.util.WeakHandler;
 
@@ -16,9 +14,9 @@ import java.util.Random;
 
 import tw.com.collection.basic.base.MultiTypeAdapter;
 import tw.com.collection.basic.http.IDataCallListener;
-import tw.com.collection.mvp.item.FooterItem;
-import tw.com.collection.mvp.item.ImageItem;
-import tw.com.collection.mvp.item.TextItem;
+import tw.com.collection.mvp.main.item.FooterItem;
+import tw.com.collection.mvp.main.item.ImageItem;
+import tw.com.collection.mvp.main.item.TextItem;
 
 public class MainPresenter {
     private MainViewContract mainViewContract;
@@ -136,9 +134,5 @@ public class MainPresenter {
             }
         }
         LAST_DATA_POS += MORE_DATA_QTY;
-    }
-
-    public void Destroy() {
-        mainViewContract = null;
     }
 }

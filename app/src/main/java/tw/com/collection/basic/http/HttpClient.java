@@ -36,12 +36,7 @@ public class HttpClient {
 //        });
 
         //添加https支持
-        okHttpClientBuilder.hostnameVerifier(new HostnameVerifier() {
-            @Override
-            public boolean verify(String s, SSLSession sslSession) {
-                return true;
-            }
-        });
+        okHttpClientBuilder.hostnameVerifier((s, sslSession) -> true);
 
         //信任所有憑證
         HttpsUtils httpsUtils = new HttpsUtils();
@@ -55,10 +50,9 @@ public class HttpClient {
      * @param request url參數
      * @param httpCallback 結果回調
      */
-    private static Call sendRequest(Request request, HttpCallback httpCallback){
+    private static void sendRequest(Request request, HttpCallback httpCallback){
         Call call=mOkHttpClient.newCall(request);
         call.enqueue(httpCallback);
-        return  call;
     }
 
     /**

@@ -1,4 +1,4 @@
-package tw.com.collection.mvp;
+package tw.com.collection.mvp.main;
 
 import androidx.databinding.BaseObservable;
 

@@ -1,63 +1,111 @@
 package tw.com.collection.basic.socket;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+import android.util.Log;
+
+import com.badoo.mobile.util.WeakHandler;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class SocketClient {
-    private Socket socket;
-    private String url;
-    private int port;
-    private String name;
-    private SocketCallBack socketCallBack;//訊息回調
 
-    public interface SocketCallBack{
-        void MessageBack(String msg);
+    private String url;
+
+    private int port;
+
+    private CallBack callBack;
+
+    private ExecutorService executorService;
+
+    private WeakHandler handler;
+
+    private Socket socket;
+
+    private BufferedReader in;
+
+    private PrintWriter out;
+
+    public interface CallBack{
+        void message(String msg);
     }
 
-    public SocketClient(String url, int port, String name, SocketCallBack socketCallBack){
+    public SocketClient(String url, int port, CallBack callBack){
         this.url = url;
         this.port = port;
-        this.name = name;
-        this.socketCallBack = socketCallBack;
+        this.callBack = callBack;
+
+        executorService = Executors.newCachedThreadPool();
+        handler = new WeakHandler();
     }
 
     public void start(){
-        ExecutorService executorService = Executors.newCachedThreadPool();
         executorService.execute(()->{
             try {
                 socket = new Socket(url,port);
-                BufferedOutputStream out = new BufferedOutputStream(socket.getOutputStream());
-                sendMessage(out,"jerry");
-            } catch (Exception e) {
+                executorService.execute(new Listen());
+            }catch (Exception e){
                 e.printStackTrace();
             }
         });
-        executorService.execute(new ListenrServser());
     }
 
-    class ListenrServser implements Runnable {
-        byte[] data = new byte[1024];
+    public void sendMessage(String msg){
+        executorService.execute(new Write(msg));
+    }
+
+    private void showMessage(String msg){
+        handler.post(()->callBack.message(msg));
+    }
+
+    class Listen implements Runnable{
+
         @Override
         public void run() {
             try {
-                BufferedInputStream in = new BufferedInputStream(socket.getInputStream());
-                StringBuilder stringBuilder = new StringBuilder();
-                // 读取客户端发来的昵称
-                while (in.read(data) != -1) {
-                    stringBuilder.append(new String(data, 0, in.read(data)));
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+                out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
+
+                while (true){
+                    String str = null;
+                    while ( (str =in.readLine()) != null){
+                        showMessage(str);
+                    }
                 }
-                socketCallBack.MessageBack(stringBuilder.toString());
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
+            }finally {
+                try {
+                    in.close();
+                    out.close();
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
+
     }
 
-    private void sendMessage(BufferedOutputStream out, String msg)throws Exception{
-        out.write(msg.getBytes());
-        out.flush();
+    class Write implements Runnable{
+
+        String msg;
+
+        private Write(String msg){
+            this.msg = msg;
+        }
+
+        @Override
+        public void run() {
+            out.println(msg);
+            out.flush();
+            Log.d("write_aaa",msg);
+        }
     }
 }

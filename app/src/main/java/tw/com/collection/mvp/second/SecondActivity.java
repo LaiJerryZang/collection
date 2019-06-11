@@ -42,11 +42,4 @@ public class SecondActivity extends BaseActivity<ActivitySecondBinding> implemen
     public void Error(String exception) {
         CommonUtil.showToast(this,exception);
     }
-
-    @Override
-    protected void onDestroy() {
-        secondPresenter.Destroy();
-        super.onDestroy();
-    }
-
 }

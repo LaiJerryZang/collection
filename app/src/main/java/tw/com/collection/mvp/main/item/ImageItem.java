@@ -1,4 +1,4 @@
-package tw.com.collection.mvp.item;
+package tw.com.collection.mvp.main.item;
 
 import android.app.Activity;
 import android.content.Context;

@@ -7,11 +7,11 @@
 
         <variable
             name="item"
-            type="tw.com.collection.mvp.item.ImageItem"/>
+            type="tw.com.collection.mvp.main.item.ImageItem"/>
 
         <variable
             name="main"
-            type="tw.com.collection.mvp.MainActivity"/>
+            type="tw.com.collection.mvp.main.MainActivity"/>
 
     </data>
 
