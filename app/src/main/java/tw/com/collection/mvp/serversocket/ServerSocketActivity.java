@@ -28,6 +28,5 @@ public class ServerSocketActivity extends BaseActivity<ActivityServersocketBindi
         TextView textView = new TextView(this);
         textView.setText(msg);
         dataBinding.lly.addView(textView);
-        String sss = "bbbbbbbbbbbbbb";
     }
 }
