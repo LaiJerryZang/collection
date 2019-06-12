@@ -75,7 +75,7 @@ public class SocketClient {
 
     public void close(){
         isClient = false;
-        executorService.execute(new Write(socket.getLocalAddress() + "下線"));
+        executorService.execute(new Write("client exit"));
         Log.i("下線","下線");
     }
 
@@ -89,7 +89,7 @@ public class SocketClient {
 
                 String str;
                 while (isClient){
-                    while ((str =in.readLine()) != null){
+                    if ((str =in.readLine()) != null){
                         showMessage(str);
                     }
                 }

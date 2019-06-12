@@ -3,10 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
-            name="serversocket"
-            type="tw.com.collection.mvp.serversocket.ServerSocketActivity" />
+            name="presenter"
+            type="tw.com.collection.mvp.serversocket.ServerSocketPresenter" />
     </data>
 
     <RelativeLayout
@@ -39,7 +38,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text="@string/Send" />
+            android:text="@string/Send"
+            android:onClick="@{()->presenter.sendMessage(edt.getText().toString())}"/>
 
     </RelativeLayout>
 </layout>

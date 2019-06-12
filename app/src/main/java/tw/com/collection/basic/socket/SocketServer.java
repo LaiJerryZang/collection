@@ -1,5 +1,7 @@
 package tw.com.collection.basic.socket;
 
+import android.util.Log;
+
 import com.badoo.mobile.util.WeakHandler;
 
 import java.io.BufferedReader;
@@ -15,8 +17,11 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class SocketServer {
 
@@ -30,6 +35,10 @@ public class SocketServer {
 
     private WeakHandler handler;
 
+    private volatile boolean isOpen;
+
+    private Map<String,PrintWriter> client;
+
     public interface CallBack {
         void message(String msg);
     }
@@ -39,8 +48,8 @@ public class SocketServer {
         this.callBack = callBack;
 
         executorService = Executors.newCachedThreadPool();
-
         handler = new WeakHandler();
+        client = new HashMap<>();
     }
 
     public void start() {
@@ -48,6 +57,7 @@ public class SocketServer {
             try {
                 serverSocket = new ServerSocket(port);
                 showMessage( getIpAddressString() + "等待客戶端連線...");
+                isOpen = true;
                 while (true) {
                     Socket socket = serverSocket.accept();
                     InetAddress address = socket.getInetAddress();
@@ -71,6 +81,33 @@ public class SocketServer {
 
     private void showMessage(String msg) {
         handler.post(() -> callBack.message(msg));
+    }
+
+    public void sendMessage(String msg){
+        executorService.execute(()->sendToAll(msg));
+    }
+
+    public void close(){
+        try {
+            executorService.execute(()->sendToAll("server close"));
+            isOpen = false;
+            executorService.shutdown();
+            while (executorService.awaitTermination(1, TimeUnit.SECONDS))
+            serverSocket.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private synchronized void putClient(String ip, PrintWriter out){
+        client.put(ip,out);
+    }
+
+    private synchronized void sendToAll(String msg){
+        for (PrintWriter out : client.values()){
+            out.println(msg);
+            out.flush();
+        }
     }
 
     class Listen implements Runnable {
@@ -97,23 +134,32 @@ public class SocketServer {
                 out.println(getIpAddressString());
                 out.flush();
 
+                putClient(ip,out);
+
                 String str;
-                while (true) {
-                    while ((str =in.readLine()) != null) {
-                        showMessage(str);
+                while (isOpen) {
+                    if ((str =in.readLine()) != null) {
+                        if(str.equals("client exit")){
+                            break;
+                        }
+                        showMessage(ip + " : " + str);
+                        out.println(ip + " : " + str);
+                        out.flush();
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 try {
+                    showMessage(ip + " 已下線");
+                    in.close();
+                    out.close();
                     socket.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
-
     }
 
     //獲取本地ip
