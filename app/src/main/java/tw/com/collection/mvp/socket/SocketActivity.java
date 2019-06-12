@@ -42,5 +42,6 @@ public class SocketActivity extends BaseActivity<ActivitySocketBinding> implemen
         Log.d("write_aaa","send");
         String msg = dataBinding.edt.getText().toString();
         socketClient.sendMessage(msg);
+        String ssss = "ccccccccccccc";
     }
 }
