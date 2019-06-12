@@ -47,7 +47,7 @@ public class SocketServer {
         executorService.execute(() -> {
             try {
                 serverSocket = new ServerSocket(port);
-                showMessage(getIpAddressString() + "等待客戶端連線...");
+                showMessage( getIpAddressString() + "等待客戶端連線...");
                 while (true) {
                     Socket socket = serverSocket.accept();
                     InetAddress address = socket.getInetAddress();
@@ -97,16 +97,17 @@ public class SocketServer {
                 out.println(getIpAddressString());
                 out.flush();
 
+                String str;
                 while (true) {
-                    String str = in.readLine();
-                    showMessage(str);
+                    while ((str =in.readLine()) != null) {
+                        showMessage(str);
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 try {
-                    if (socket != null) socket.close();
-                    showMessage(ip + "已下線");
+                    socket.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -116,7 +117,7 @@ public class SocketServer {
     }
 
     //獲取本地ip
-    public static String getIpAddressString() {
+    private static String getIpAddressString() {
         try {
             for (Enumeration<NetworkInterface> enNetI = NetworkInterface
                     .getNetworkInterfaces(); enNetI.hasMoreElements(); ) {

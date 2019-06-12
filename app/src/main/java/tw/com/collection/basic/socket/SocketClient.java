@@ -9,10 +9,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.Socket;
+import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
+import java.util.Enumeration;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class SocketClient {
 
@@ -32,6 +38,8 @@ public class SocketClient {
 
     private PrintWriter out;
 
+    private boolean isClient;
+
     public interface CallBack{
         void message(String msg);
     }
@@ -49,6 +57,7 @@ public class SocketClient {
         executorService.execute(()->{
             try {
                 socket = new Socket(url,port);
+                isClient = true;
                 executorService.execute(new Listen());
             }catch (Exception e){
                 e.printStackTrace();
@@ -64,6 +73,12 @@ public class SocketClient {
         handler.post(()->callBack.message(msg));
     }
 
+    public void close(){
+        isClient = false;
+        executorService.execute(new Write(socket.getLocalAddress() + "下線"));
+        Log.i("下線","下線");
+    }
+
     class Listen implements Runnable{
 
         @Override
@@ -72,20 +87,23 @@ public class SocketClient {
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
                 out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
 
-                while (true){
-                    String str = null;
-                    while ( (str =in.readLine()) != null){
+                String str;
+                while (isClient){
+                    while ((str =in.readLine()) != null){
                         showMessage(str);
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }finally {
+
+                executorService.shutdown();
                 try {
+                    while (!executorService.awaitTermination(1, TimeUnit.SECONDS)) {}
                     in.close();
                     out.close();
                     socket.close();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -105,7 +123,27 @@ public class SocketClient {
         public void run() {
             out.println(msg);
             out.flush();
-            Log.d("write_aaa",msg);
         }
     }
+
+    //獲取本地ip
+    private static String getIpAddressString() {
+        try {
+            for (Enumeration<NetworkInterface> enNetI = NetworkInterface
+                    .getNetworkInterfaces(); enNetI.hasMoreElements(); ) {
+                NetworkInterface netI = enNetI.nextElement();
+                for (Enumeration<InetAddress> enumIpAddr = netI
+                        .getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    if (inetAddress instanceof Inet4Address && !inetAddress.isLoopbackAddress()) {
+                        return inetAddress.getHostAddress();
+                    }
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
 }

@@ -2,8 +2,8 @@
 <layout xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
-            name="socket"
-            type="tw.com.collection.mvp.socket.SocketActivity" />
+            name="presenter"
+            type="tw.com.collection.mvp.socket.SocketPresenter" />
     </data>
 
     <RelativeLayout
@@ -29,9 +29,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/btn"
-            android:autofillHints=""
             android:hint="@string/Message"
             android:inputType="text"
+            android:autofillHints=""
             tools:targetApi="o" />
 
         <Button
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:text="@string/Send"
-            android:onClick="send"/>
+            android:onClick="@{()->presenter.send(edt.getText().toString())}"/>
     </RelativeLayout>
 
 </layout>
