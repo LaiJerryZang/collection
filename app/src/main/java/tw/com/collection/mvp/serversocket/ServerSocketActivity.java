@@ -25,6 +25,8 @@ public class ServerSocketActivity extends BaseActivity<ActivityServersocketBindi
 
     @Override
     public void message(String msg) {
+        TextView textView = new TextView(this);
+        textView.setText(msg);
         
     }
 }
