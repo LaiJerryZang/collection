@@ -143,8 +143,7 @@ public class SocketServer {
                             break;
                         }
                         showMessage(ip + " : " + str);
-                        out.println(ip + " : " + str);
-                        out.flush();
+                        sendToAll(str);
                     }
                 }
             } catch (Exception e) {
