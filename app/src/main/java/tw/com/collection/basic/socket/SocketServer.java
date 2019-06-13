@@ -84,12 +84,13 @@ public class SocketServer {
     }
 
     public void sendMessage(String msg){
-        executorService.execute(()->sendToAll(msg));
+        callBack.message(msg);
+        executorService.execute(()->sendToAll("server : ",msg));
     }
 
     public void close(){
         try {
-            executorService.execute(()->sendToAll("server close"));
+            executorService.execute(()->sendToAll("server : ","close"));
             isOpen = false;
             executorService.shutdown();
             while (executorService.awaitTermination(1, TimeUnit.SECONDS))
@@ -103,9 +104,9 @@ public class SocketServer {
         client.put(ip,out);
     }
 
-    private synchronized void sendToAll(String msg){
+    private synchronized void sendToAll(String ip, String msg){
         for (PrintWriter out : client.values()){
-            out.println(msg);
+            out.println(ip + " : " + msg);
             out.flush();
         }
     }
@@ -131,7 +132,7 @@ public class SocketServer {
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
                 out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
 
-                out.println(getIpAddressString());
+                out.println("已連線至" + getIpAddressString());
                 out.flush();
 
                 putClient(ip,out);
@@ -143,7 +144,7 @@ public class SocketServer {
                             break;
                         }
                         showMessage(ip + " : " + str);
-                        sendToAll(str);
+                        sendToAll(ip,str);
                     }
                 }
             } catch (Exception e) {
