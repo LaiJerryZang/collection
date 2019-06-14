@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 public interface SecondViewContract {
 
-    void setImageBackground(Bitmap img);
+//    void setImageBackground(Bitmap img);
 
     /**
      * 失敗訊息

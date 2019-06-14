@@ -39,7 +39,6 @@ public class ImageItem extends BaseItem {
     public ImageItem(Map<String,String> itemData, MultiTypeAdapter adapter) {
         this.itemData = itemData;
         setOnClickListener(v -> {
-            CommonUtil.showToast(v.getContext(), position + "");
             try {
                 openActivity(v);
             } catch (Exception e) {
@@ -68,18 +67,19 @@ public class ImageItem extends BaseItem {
 
     private void openActivity(View view) throws Exception{
         Intent intent = new Intent(view.getContext(), SecondActivity.class);
-        String filename = "bitmap.png";
-        FileOutputStream stream = view.getContext().openFileOutput(filename, Context.MODE_PRIVATE);
-        Drawable drawable = ((ImageView)view).getDrawable();
-        Bitmap bmp = ConversionUtil.drawableToBitmap(drawable);
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//        String filename = "bitmap.png";
+//        FileOutputStream stream = view.getContext().openFileOutput(filename, Context.MODE_PRIVATE);
+//        Drawable drawable = ((ImageView)view).getDrawable();
+//        Bitmap bmp = ConversionUtil.drawableToBitmap(drawable);
+//        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
         //Cleanup
-        stream.close();
+//        stream.close();
 //        if (!bmp.isRecycled()) {
 //            bmp.recycle();
 //        }
         intent.putExtra("title",itemData.get("title"));
-        intent.putExtra("image",filename);
+//        intent.putExtra("image",filename);
+        intent.putExtra("imageUrl",itemData.get("imageUrl"));
         intent.putExtra("description",itemData.get("description"));
         ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) view.getContext(), view,view.getTransitionName());
         ActivityCompat.startActivity(view.getContext(), intent, compat.toBundle());

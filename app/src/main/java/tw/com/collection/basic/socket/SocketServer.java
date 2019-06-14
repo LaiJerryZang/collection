@@ -11,6 +11,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -35,7 +36,7 @@ public class SocketServer {
 
     private WeakHandler handler;
 
-    private volatile boolean isOpen;
+    private boolean isOpen;
 
     private Map<String,PrintWriter> client;
 
@@ -57,8 +58,10 @@ public class SocketServer {
             try {
                 serverSocket = new ServerSocket(port);
                 showMessage( getIpAddressString() + "等待客戶端連線...");
+                InetAddress add = InetAddress.getLocalHost();
+                Log.d("localAddress",add.getHostAddress());
                 isOpen = true;
-                while (true) {
+                while (isOpen) {
                     Socket socket = serverSocket.accept();
                     InetAddress address = socket.getInetAddress();
                     showMessage("客戶端 : " + address.getHostAddress() + "已連線");
@@ -69,7 +72,7 @@ public class SocketServer {
             } finally {
                 if (executorService != null)
                     executorService.shutdown();
-                if (serverSocket != null)
+                if (!serverSocket.isClosed())
                     try {
                         serverSocket.close();
                     } catch (IOException e) {
@@ -90,10 +93,9 @@ public class SocketServer {
 
     public void close(){
         try {
-            executorService.execute(()->sendToAll("server : ","close"));
+            executorService.execute(()->sendToAll("server","close"));
             isOpen = false;
             executorService.shutdown();
-            while (executorService.awaitTermination(1, TimeUnit.SECONDS))
             serverSocket.close();
         } catch (Exception e) {
             e.printStackTrace();

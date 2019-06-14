@@ -12,10 +12,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
             android:text="@{item.content}"
-            app:onClickListener="@{item.onClickListener}"/>
+            app:onClickListener="@{item.onClickListener}" />
     </LinearLayout>
 </layout>

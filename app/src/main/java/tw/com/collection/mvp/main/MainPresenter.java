@@ -54,13 +54,14 @@ public class MainPresenter {
                         adapter.clearItems();
                         data.clear();
                         LAST_DATA_POS = 0;
-                        JSONArray jsonArray = new JSONArray(response);
-                        for (int i = 0; i < 50; i++) {
+                        JSONObject Jresponse = new JSONObject(response);
+                        JSONArray jsonArray = Jresponse.getJSONObject("XML_Head").getJSONObject("Infos").getJSONArray("Info");
+                        for (int i = 0; i < 30; i++) {
                             Map<String, String> map = new HashMap<>();
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            String title = jsonObject.optString("title", "not title");
-                            String url = jsonObject.optString("imageUrl", "not img");
-                            String description = jsonObject.optString("descriptionFilterHtml","no description");
+                            String title = jsonObject.optString("Name", "not title");
+                            String url = jsonObject.optString("Picture1", "not img");
+                            String description = jsonObject.optString("Description","no description");
                             map.put("title", title);
                             map.put("imageUrl", url);
                             map.put("description",description);
@@ -70,6 +71,8 @@ public class MainPresenter {
                         weakHandler.post(() -> {
                             adapter.notifyDataSetChanged();
                             mainViewContract.setRefreshing(false);
+                            if (!isRefresh) mainViewContract.endProgress();
+                            mainViewContract.setViewTouch(true);
                         });
 
                     } catch (JSONException e) {
@@ -81,16 +84,19 @@ public class MainPresenter {
             @Override
             public void onFailure(String response) {
                 mainViewContract.Error(response);
+                mainViewContract.setRefreshing(false);
+                if (!isRefresh) mainViewContract.endProgress();
             }
 
             @Override
             public void start() {
                 if (!isRefresh) mainViewContract.startProgress();
+                mainViewContract.setViewTouch(false);
             }
 
             @Override
             public void end() {
-                if (!isRefresh) mainViewContract.endProgress();
+
             }
         });
     }

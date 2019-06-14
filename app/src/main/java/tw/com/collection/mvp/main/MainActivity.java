@@ -6,19 +6,14 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import com.badoo.mobile.util.WeakHandler;
-
 import tw.com.collection.R;
 import tw.com.collection.basic.base.BaseActivity;
-import tw.com.collection.basic.socket.SocketClient;
-import tw.com.collection.basic.socket.SocketServer;
 import tw.com.collection.basic.utils.CommonUtil;
 import tw.com.collection.basic.view.ScaleButton;
 import tw.com.collection.databinding.ActivityMainBinding;
@@ -86,11 +81,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements M
         ScaleButton button = dataBinding.btn;
         button.setOnClickListener((ScaleButton.OnClickListener) v -> recyclerView.smoothScrollToPosition(0));
 
-//        new SocketServer(6666, msg -> {
-//            CommonUtil.showToast(this,msg);
-//        }).start();
-//
-//        new WeakHandler().postDelayed(()->new SocketClient("192.168.0.167",6666,msg->CommonUtil.showToast(this,msg)).start(),3000);
+
     }
 
     @Override
@@ -121,6 +112,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements M
     @Override
     public void showToast(String msg) {
         CommonUtil.showToast(this,msg);
+    }
+
+    @Override
+    public void setViewTouch(boolean canTouch) {
+        dataBinding.fly.setClickable(!canTouch);
     }
 
     private void alphaAnim(View view, float... values) {

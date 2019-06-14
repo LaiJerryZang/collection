@@ -15,23 +15,23 @@ public class SecondPresenter {
         this.secondViewContract = secondViewContract;
     }
 
-    public void getImage(FileInputStream is){
-        ThreadPoolManager.getInstance().addTask(new ITaskCallListener() {
-            @Override
-            public Object work() {
-                return BitmapFactory.decodeStream(is);
-            }
-
-            @Override
-            public void callBack(Object response) {
-                secondViewContract.setImageBackground((Bitmap) response);
-            }
-
-            @Override
-            public void error(String exception) {
-                secondViewContract.Error(exception);
-            }
-        });
-    }
+//    public void getImage(FileInputStream is){
+//        ThreadPoolManager.getInstance().addTask(new ITaskCallListener() {
+//            @Override
+//            public Object work() {
+//                return BitmapFactory.decodeStream(is);
+//            }
+//
+//            @Override
+//            public void callBack(Object response) {
+//                secondViewContract.setImageBackground((Bitmap) response);
+//            }
+//
+//            @Override
+//            public void error(String exception) {
+//                secondViewContract.Error(exception);
+//            }
+//        });
+//    }
 
 }

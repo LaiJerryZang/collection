@@ -7,6 +7,6 @@ import tw.com.collection.basic.http.IDataCallListener;
 
 public class MainModel extends BaseObservable {
     public void getOpenData(IDataCallListener listener){
-        HttpClient.get("https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6", null, listener);
+        HttpClient.get("https://gis.taiwan.net.tw/XMLReleaseALL_public/hotel_C_f.json", null, listener);
     }
 }

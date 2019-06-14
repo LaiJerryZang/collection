@@ -32,4 +32,10 @@ public interface MainViewContract {
      */
     void showToast(String msg);
 
+    /**
+     * 設置view觸控
+     * @param canTouch
+     */
+    void setViewTouch(boolean canTouch);
+
 }

@@ -4,10 +4,6 @@
     tools:context=".mvp.main.MainActivity">
 
     <data>
-
-        <variable
-            name="main"
-            type="tw.com.collection.mvp.main.MainActivity" />
         <variable
             name="listener"
             type="tw.com.collection.basic.view.ScaleButton.OnClickListener" />
@@ -36,6 +32,12 @@
                android:layout_marginEnd="8sp"
                android:layout_marginBottom="8sp"
                android:background="@drawable/ic_launcher_top" />
+
+           <FrameLayout
+               android:id="@+id/fly"
+               android:layout_width="match_parent"
+               android:layout_height="match_parent">
+           </FrameLayout>
        </RelativeLayout>
 
 

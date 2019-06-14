@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout">
 
     <data>
 
@@ -9,70 +11,83 @@
             type="tw.com.collection.mvp.second.SecondActivity" />
     </data>
 
-    <com.github.florent37.shapeofview.shapes.CutCornerView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:elevation="4dp"
-        app:shape_cutCorner_topLeftSize="42dp"
-        android:layout_marginStart="5sp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#AAA">
 
-        <RelativeLayout
+        <com.flaviofaria.kenburnsview.KenBurnsView
+            android:id="@+id/kbv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#985651">
+            android:layout_height="200sp"
+            android:background="@drawable/img_placeholder"
+            android:contentDescription="@string/contentDescription"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/iv"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="35sp"
-                android:layout_marginTop="35sp"
-                android:layout_marginEnd="20sp"
-                android:layout_marginBottom="20sp"
-                android:background="@drawable/img_placeholder"
-                android:contentDescription="@string/contentDescription"
-                android:scaleType="fitXY"
-                android:transitionName="@string/transition_name" />
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="100sp"
+            android:layout_height="60sp"
+            android:layout_marginEnd="12sp"
+            android:layout_marginBottom="12sp"
+            android:scaleType="centerCrop"
+            android:transitionName="@string/transition_name"
+            android:contentDescription="@string/contentDescription"
+            app:layout_constraintBottom_toBottomOf="@+id/kbv"
+            app:layout_constraintEnd_toEndOf="@+id/kbv" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:textColor="@android:color/background_dark"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/kbv" />
 
 
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/iv"
-                android:layout_marginStart="10sp"
-                android:layout_marginBottom="3sp"
-                android:background="@android:drawable/editbox_dropdown_light_frame" />
+        <com.github.florent37.shapeofview.shapes.CutCornerView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10sp"
+            android:elevation="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            app:shape_cutCorner_topLeftSize="42dp">
 
-
-            <androidx.core.widget.NestedScrollView
-                android:id="@+id/scroll"
+            <ScrollView
+                android:id="@+id/scrollView2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/tv_title"
-                android:layout_marginStart="8sp"
-                android:layout_marginTop="8sp"
-                android:layout_marginEnd="8sp"
-                android:layout_marginBottom="8sp"
-                android:background="#ffffff"
-                android:clipToPadding="false">
+                android:layout_marginStart="5sp"
+                android:layout_marginTop="3sp"
+                android:layout_marginEnd="5sp"
+                android:layout_marginBottom="5sp">
 
                 <LinearLayout
-                    android:id="@+id/lly"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="20sp"
+                    android:layout_marginTop="30sp"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/tv_description"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="30sp"
+                        android:textColor="@android:color/background_dark" />
                 </LinearLayout>
-            </androidx.core.widget.NestedScrollView>
+            </ScrollView>
+        </com.github.florent37.shapeofview.shapes.CutCornerView>
 
-        </RelativeLayout>
-    </com.github.florent37.shapeofview.shapes.CutCornerView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -96,7 +96,7 @@ public class SocketClient {
             } catch (Exception e) {
                 e.printStackTrace();
             }finally {
-
+                showMessage("連線中斷");
                 executorService.shutdown();
                 try {
                     while (!executorService.awaitTermination(1, TimeUnit.SECONDS)) {}
