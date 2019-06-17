@@ -15,6 +15,6 @@
 
         <tw.com.collection.basic.view.dotsview.DotsView
             android:layout_width="100sp"
-            android:layout_height="100sp"/>
+            android:layout_height="100sp" />
     </LinearLayout>
 </layout>
