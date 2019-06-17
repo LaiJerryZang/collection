@@ -1,6 +1,7 @@
 package tw.com.collection.mvp.second;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 
 public interface SecondViewContract {
 
@@ -11,5 +12,7 @@ public interface SecondViewContract {
      * @param exception 異常錯誤
      */
     void Error(String exception);
+
+    void setRandomBackground(int color);
 
 }

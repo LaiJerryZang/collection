@@ -34,6 +34,6 @@ public class LoadingDialog extends Dialog {
         if (TextUtils.isEmpty(msg)) {
             msg = "資料加載中...";
         }
-        ((TextView)findViewById(R.id.tv_msg)).setText(msg);
+//        ((TextView)findViewById(R.id.tv_msg)).setText(msg);
     }
 }

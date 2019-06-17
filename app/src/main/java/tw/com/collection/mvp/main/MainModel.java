@@ -7,6 +7,6 @@ import tw.com.collection.basic.http.IDataCallListener;
 
 public class MainModel extends BaseObservable {
     public void getOpenData(IDataCallListener listener){
-        HttpClient.get("https://gis.taiwan.net.tw/XMLReleaseALL_public/hotel_C_f.json", null, listener);
+        HttpClient.get("http://data.coa.gov.tw/Service/OpenData/ODwsv/ODwsvTravelFood.aspx", null, listener);
     }
 }

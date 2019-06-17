@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="second"
             type="tw.com.collection.mvp.second.SecondActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cly"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#AAA">
+        android:layout_height="match_parent">
 
         <com.flaviofaria.kenburnsview.KenBurnsView
             android:id="@+id/kbv"
@@ -24,6 +21,7 @@
             android:contentDescription="@string/contentDescription"
             android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -87,7 +85,5 @@
                 </LinearLayout>
             </ScrollView>
         </com.github.florent37.shapeofview.shapes.CutCornerView>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

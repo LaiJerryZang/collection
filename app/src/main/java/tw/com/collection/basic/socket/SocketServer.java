@@ -58,8 +58,6 @@ public class SocketServer {
             try {
                 serverSocket = new ServerSocket(port);
                 showMessage( getIpAddressString() + "等待客戶端連線...");
-                InetAddress add = InetAddress.getLocalHost();
-                Log.d("localAddress",add.getHostAddress());
                 isOpen = true;
                 while (isOpen) {
                     Socket socket = serverSocket.accept();

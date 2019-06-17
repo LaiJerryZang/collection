@@ -2,6 +2,7 @@ package tw.com.collection.mvp.second;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -34,6 +35,8 @@ public class SecondActivity extends BaseActivity<ActivitySecondBinding> implemen
 
         setImageBackground(intent.getStringExtra("imageUrl"),dataBinding.iv);
         setImageBackground(intent.getStringExtra("imageUrl"),dataBinding.kbv);
+
+        secondPresenter.randomBackground();
     }
 
     @Override
@@ -50,6 +53,11 @@ public class SecondActivity extends BaseActivity<ActivitySecondBinding> implemen
     @Override
     public void Error(String exception) {
         CommonUtil.showToast(this,exception);
+    }
+
+    @Override
+    public void setRandomBackground(int color) {
+        dataBinding.cly.setBackgroundColor(color);
     }
 
     public void setImageBackground(String url, ImageView view){
